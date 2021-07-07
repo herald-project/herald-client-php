@@ -346,6 +346,7 @@ class Client implements MessageSenderInterface
     public function setTemplateNamePrefix($prefix)
     {
         $this->templateNamePrefix = $prefix;
+
         return $this;
     }
 
@@ -366,6 +367,15 @@ class Client implements MessageSenderInterface
         return $this->doQuery('POST', 'contact/change', [
             'from' => $oldAddress,
             'to' => $newAddress,
+        ]);
+    }
+
+    public function templateBodyUpdate($templateName, $body, $skipNamePrefix = false)
+    {
+        $url = 'templates/'.$this->patchTemplateName($templateName, $skipNamePrefix).'/body';
+
+        return $this->doQuery('POST', $url, [
+            'body' => $body,
         ]);
     }
 }
